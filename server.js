@@ -14,28 +14,28 @@ app.get('/', function(req, res) {
 });
 
 /* GET agents */
-app.get('/agents', function(req, res) {
+app.get('/api/agents', function(req, res) {
   api.agents.list(function(agents) {
     res.send(agents);
   });
 });
 
 /* GET single agent */
-app.get('/agents/:login', function(req, res) {
+app.get('/api/agents/:login', function(req, res) {
   api.agents.get(req.params.login, function(agent) {
     res.send(agent);
   });
 });
 
 /* GET chats */
-app.get('/chats', function(req, res) {
+app.get('/api/chats', function(req, res) {
   api.chats.list(function(chats) {
     res.send(chats);
   });
 });
 
 /* GET single chat */
-app.get('/chats/:chatId', function(req, res) {
+app.get('/api/chats/:chatId', function(req, res) {
   api.chats.get(req.params.chatId, function(chat) {
     res.send(chat);
   });

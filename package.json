@@ -2,11 +2,14 @@
   "name": "brain-train",
   "version": "0.0.1",
   "dependencies": {
+    "concurrently": "^3.5.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "livechatapi": "^0.6.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server.js",
+    "client": "node start-client.js"
   }
 }
