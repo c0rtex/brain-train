@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
+  NavLink,
   Switch
 } from 'react-router-dom';
 import Agents from './Agents';
@@ -29,10 +29,10 @@ class App extends Component {
           <div className="row">
             <div className="col-sm-3 col-md-2 sidebar">
               <ul className="nav nav-sidebar">
-                <li><Link to="/">Overview</Link></li>
-                <li><Link to="/agents">Agents</Link></li>
-                <li><Link to="/chats">Chats</Link></li>
-                <li><Link to="/categories">Categories</Link></li>
+                <li><NavLink to="/" activeClassName="active">Overview</NavLink></li>
+                <li><NavLink to="/agents" activeClassName="active">Agents</NavLink></li>
+                <li><NavLink to="/chats" activeClassName="active">Chats</NavLink></li>
+                <li><NavLink to="/categories" activeClassName="active">Categories</NavLink></li>
               </ul>
             </div>
             <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
