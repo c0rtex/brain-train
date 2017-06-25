@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Agents from './Agents';
 import Chats from './Chats';
+import Transcript from './Transcript';
 import './App.css';
 
 const Overview = () => (
@@ -39,6 +40,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Overview} />
                 <Route path="/agents" component={Agents} />
+                <Route path="/chats/:chatId" component={Transcript} />
                 <Route path="/chats" component={Chats} />
                 <Route path="/categories" component={Categories} />
               </Switch>

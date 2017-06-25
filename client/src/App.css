@@ -80,3 +80,10 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+
+.odd {
+  background-color: #efefef;
+}
+.even {
+  background-color: #ffffff;
+}
