@@ -5,13 +5,13 @@ const LiveChatApi = require('livechatapi').LiveChatApi;
 const app = express();
 app.set('port', (process.env.PORT || 3001));
 
+// Serve static assets in Production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
 /* Authentication */
 const api = new LiveChatApi(process.env.LIVECHAT_LOGIN, process.env.LIVECHAT_API_KEY);
-
-/* GET home page */
-app.get('/', function(req, res) {
-  res.send('Brain Train API (integrates with LiveChat)');
-});
 
 /* GET agents */
 app.get('/api/agents', function(req, res) {
