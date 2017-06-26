@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function ChatMessageRow(props) {
   return (
     <li className={'list-group-item ' + (props.odd ? 'odd' : 'even')}>
-      <strong>{props.message.author_name}</strong> <em>({props.message.date}):</em> {props.message.text}
+      <strong>{props.message.author_name}</strong> <em>{props.message.date}:</em> {props.message.text}
     </li>
   );
 }
@@ -29,6 +29,26 @@ function ChatMessages(props) {
   );
 }
 
+function TagsList(props) {
+  let tags = [];
+  for (let tag of props.tags) {
+    tags.push(<li><Link key={tag} to={`/chats/tag/${tag}`}>{tag}</Link></li>);
+  }
+
+  return (
+    <div>
+      <h4>Tags</h4>
+      {tags.length > 0 ? (
+        <ul>
+          {tags}
+        </ul>
+      ) : (
+        <p>This conversation is not tagged.</p>
+      )}
+    </div>
+  )
+}
+
 class Transcript extends Component {
 
   constructor(props) {
@@ -41,8 +61,7 @@ class Transcript extends Component {
   componentDidMount() {
     fetch(`/api/chats/${this.props.match.params.chatId}`)
       .then((response) => response.json())
-      .then((data) => {this.setState({chat: data})
-      });
+      .then((data) => this.setState({chat: data}));
   }
 
   render() {
@@ -66,6 +85,8 @@ class Transcript extends Component {
             <li><strong>Email:</strong> {this.state.chat.agents[0].email}</li>
             <li><strong>IP:</strong> {this.state.chat.agents[0].ip}</li>
           </ul>
+
+          <TagsList tags={this.state.chat.tags} />
           <ChatMessages messages={this.state.chat.messages} />
         </div>
       );
