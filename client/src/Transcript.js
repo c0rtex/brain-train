@@ -32,7 +32,7 @@ function ChatMessages(props) {
 function TagsList(props) {
   let tags = [];
   for (let tag of props.tags) {
-    tags.push(<li><Link key={tag} to={`/chats/tag/${tag}`}>{tag}</Link></li>);
+    tags.push(<li><Link key={tag} to={`/tags/${tag}`}>{tag}</Link></li>);
   }
 
   return (
