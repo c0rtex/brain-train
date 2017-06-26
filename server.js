@@ -1,6 +1,17 @@
 require('dotenv').config();
 const express = require('express');
+const request = require('request');
 const LiveChatApi = require('livechatapi').LiveChatApi;
+
+const liveChatEndpoint = 'https://api.livechatinc.com'
+let apiReqDefaults = {
+  headers: {'X-API-Version': 2},
+  auth: {
+    user: process.env.LIVECHAT_LOGIN,
+    pass: process.env.LIVECHAT_API_KEY,
+    sendImmediately: true
+  }
+}
 
 const app = express();
 app.set('port', (process.env.PORT || 3001));
@@ -39,6 +50,24 @@ app.get('/api/chats/:chatId', function(req, res) {
   api.chats.get(req.params.chatId, function(chat) {
     res.send(chat);
   });
+});
+
+/* GET tags */
+app.get('/api/tags', function(req, res, next) {
+  apiReqDefaults.url = liveChatEndpoint + '/tags';
+  request.get(apiReqDefaults, function(err, response, body) {
+    if (err) return next(err);
+    res.send(JSON.parse(body));
+  })
+});
+
+/* GET single tag */
+app.get('/api/tags/:tagName', function(req, res, next) {
+  apiReqDefaults.url = liveChatEndpoint + '/chats?tag[]=' + req.params.tagName;
+  request.get(apiReqDefaults, function(err, response, body) {
+    if (err) return next(err);
+    res.send(JSON.parse(body));
+  })
 });
 
 // Listen

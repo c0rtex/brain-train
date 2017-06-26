@@ -8,6 +8,8 @@ import {
 import Agents from './Agents';
 import Chats from './Chats';
 import Transcript from './Transcript';
+import Tags from './Tags';
+import SingleTag from './SingleTag';
 import './App.css';
 
 const Overview = () => (
@@ -15,10 +17,6 @@ const Overview = () => (
     <h1 className="page-header">Overview</h1>
     <p>Welcome to Brain Train.</p>
   </div>
-);
-
-const Tags = () => (
-  <h1 className="page-header">Tags</h1>
 );
 
 class App extends Component {
@@ -42,6 +40,7 @@ class App extends Component {
                 <Route path="/agents" component={Agents} />
                 <Route path="/chats/:chatId" component={Transcript} />
                 <Route path="/chats" component={Chats} />
+                <Route path="/tags/:tagName" component={SingleTag} />
                 <Route path="/tags" component={Tags} />
               </Switch>
             </div>

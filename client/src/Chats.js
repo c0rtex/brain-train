@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 function ChatRow(props) {
   return (
     <div className="list-group-item">
-      <h4 className="list-group-item-heading">{props.chat.id}</h4>
+      <h4 className="list-group-item-heading">
+        <Link to={`/chats/${props.chat.id}`}>{props.chat.id}</Link> <em>({moment.unix(props.chat.started_timestamp).format('MMMM Do YYYY')})</em>
+      </h4>
       <div className="list-group-item-text">
         <h5>Visitor Information</h5>
         <ul>
