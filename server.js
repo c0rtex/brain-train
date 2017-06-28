@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const request = require('request');
+const bodyParser = require('body-parser');
 const LiveChatApi = require('livechatapi').LiveChatApi;
 
 const liveChatEndpoint = 'https://api.livechatinc.com'
@@ -15,6 +16,9 @@ let apiReqDefaults = {
 
 const app = express();
 app.set('port', (process.env.PORT || 3001));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serve static assets in Production
 if (process.env.NODE_ENV === 'production') {
@@ -52,13 +56,29 @@ app.get('/api/chats/:chatId', function(req, res) {
   });
 });
 
+/* POST Update chat tags */
+app.post('/api/chats/:chatId/tags', function(req, res, next) {
+  /* @TODO: Needs to be fixed! */
+  apiReqDefaults.url = liveChatEndpoint + '/chats/' + req.params.chatId + '/tags';
+  apiReqDefaults.headers['Content-Type'] = 'text/json';
+  apiReqDefaults.json = {
+    "tag[]":"sales"
+  }
+  apiReqDefaults.method = 'PUT';
+
+  request(apiReqDefaults, function(err, response, body) {
+    if (err) return next(err);
+    res.send(body);
+  });
+});
+
 /* GET tags */
 app.get('/api/tags', function(req, res, next) {
   apiReqDefaults.url = liveChatEndpoint + '/tags';
   request.get(apiReqDefaults, function(err, response, body) {
     if (err) return next(err);
     res.send(JSON.parse(body));
-  })
+  });
 });
 
 /* GET single tag */
@@ -67,7 +87,26 @@ app.get('/api/tags/:tagName', function(req, res, next) {
   request.get(apiReqDefaults, function(err, response, body) {
     if (err) return next(err);
     res.send(JSON.parse(body));
-  })
+  });
+});
+
+/* POST Create new tag */
+app.post('/api/tags', function(req, res, next) {
+  if (!req.body.tagName) {
+    res.send({ error: 'No tag was provided.' })
+    return;
+  }
+
+  apiReqDefaults.url = liveChatEndpoint + '/tags?tag=' + req.body.tagName;
+  apiReqDefaults.form = {
+    author: apiReqDefaults.auth.user,
+    tag: req.body.tagName,
+    group: 0
+  }
+  request.post(apiReqDefaults, function(err, response, body) {
+    if (err) return next(err);
+    res.send(JSON.parse(body));
+  });
 });
 
 // Listen

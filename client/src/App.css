@@ -87,3 +87,10 @@ body {
 .even {
   background-color: #ffffff;
 }
+
+/*
+ * Add tag form
+ */
+.add-tag-form {
+  margin: 15px 0;
+}
