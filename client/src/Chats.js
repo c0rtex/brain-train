@@ -3,30 +3,27 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 function ChatRow(props) {
+  let tags = [];
+  props.chat.tags.forEach((tag) => {
+    tags.push(<Link key={tag} to={`/tags/${tag}`}><li className="btn btn-warning">{tag}</li></Link>);
+  })
   return (
     <div className="list-group-item">
       <h4 className="list-group-item-heading">
         <Link to={`/chats/${props.chat.id}`}>{props.chat.id}</Link> <em>({moment.unix(props.chat.started_timestamp).format('MMMM Do YYYY')})</em>
       </h4>
       <div className="list-group-item-text">
-        <h5>Visitor Information</h5>
-        <ul>
-          <li><strong>Name:</strong> {props.chat.visitor.name}</li>
-          <li><strong>Email:</strong> {props.chat.visitor.email}</li>
-          <li><strong>IP:</strong> {props.chat.visitor.ip}</li>
-          <li>
-            <strong>Location:</strong> {props.chat.visitor.city}, {props.chat.visitor.region}, {props.chat.visitor.country}
-          </li>
-        </ul>
+        <p>
+          Between <strong>{props.chat.visitor.name}</strong> and <strong>{props.chat.agents[0].display_name}</strong> <em>({moment.unix(props.chat.started_timestamp).format('MMMM Do YYYY, h:mm a')})</em>
+        </p>
 
-        <h5>Agent Information</h5>
-        <ul>
-          <li><strong>Name:</strong> {props.chat.agents[0].display_name}</li>
-          <li><strong>Email:</strong> {props.chat.agents[0].email}</li>
-          <li><strong>IP:</strong> {props.chat.agents[0].ip}</li>
+        <p>
+          <Link to={`/chats/${props.chat.id}`}>» Read transcript</Link>
+        </p>
+        {props.chat.tags.length > 0 && <ul className="chat-tags-list">
+          {tags}
         </ul>
-
-        <Link to={`/chats/${props.chat.id}`}>&gt;&gt; Read transcript</Link>
+        }
 
       </div>
     </div>
@@ -42,7 +39,7 @@ function ChatsList(props) {
   }
 
   return (
-    <div className="list-group">
+    <div className="list-group messages-list">
       {rows}
     </div>
   );

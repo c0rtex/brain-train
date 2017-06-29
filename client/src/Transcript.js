@@ -32,19 +32,20 @@ function ChatMessages(props) {
 function TagsList(props) {
   let tags = [];
   for (let tag of props.tags) {
-    tags.push(<li><Link key={tag} to={`/tags/${tag}`}>{tag}</Link></li>);
+    tags.push(<Link to={`/tags/${tag}`}><li key={tag} className="btn btn-warning">{tag}</li></Link>);
   }
 
   return (
     <div>
       <h4>Tags</h4>
       {tags.length > 0 ? (
-        <ul>
+        <ul className="chat-tags-list">
           {tags}
         </ul>
       ) : (
         <p>This conversation is not tagged.</p>
       )}
+      <a className="btn btn-info btn-xs" href="#">Add tag</a>
     </div>
   )
 }

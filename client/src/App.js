@@ -28,15 +28,14 @@ class App extends Component {
           <div className="row">
             <div className="col-sm-3 col-md-2 sidebar">
               <ul className="nav nav-sidebar">
-                <li><NavLink to="/" activeClassName="active">Overview</NavLink></li>
-                <li><NavLink to="/agents" activeClassName="active">Agents</NavLink></li>
                 <li><NavLink to="/chats" activeClassName="active">Chats</NavLink></li>
+                <li><NavLink to="/agents" activeClassName="active">Agents</NavLink></li>
                 <li><NavLink to="/tags" activeClassName="active">Tags</NavLink></li>
               </ul>
             </div>
             <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
               <Switch>
-                <Route exact path="/" component={Overview} />
+                <Route exact path="/" component={Chats} />
                 <Route path="/agents" component={Agents} />
                 <Route path="/chats/:chatId" component={Transcript} />
                 <Route path="/chats" component={Chats} />

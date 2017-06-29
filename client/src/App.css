@@ -89,6 +89,23 @@ body {
 }
 
 /*
+ * Chats page
+ */
+.chat-tags-list {
+  padding: 0;
+  margin-top: 8px;
+}
+.chat-tags-list li {
+  display: inline-block;
+  margin-right: 15px;
+  padding: 5px;
+}
+.messages-list .list-group-item:hover {
+  background-color: #f7f7f9;
+  border-color:#e1e1e8;
+}
+
+/*
  * Tags page
  */
 .add-tag-form {
