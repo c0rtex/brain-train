@@ -38,7 +38,7 @@ class SingleTag extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/chats')
+    fetch(`/api/tags/${this.props.match.params.tagName}`)
       .then((response) => response.json())
       .then((data) => this.setState({tag: data})
     );

@@ -116,7 +116,6 @@ app.delete('/api/tags/:tagName', function(req, res, next) {
 
   request(apiReqDefaults, function(err, response, body) {
     if (err) return next(err);
-    console.log(body);
     res.end();
   });
 })
