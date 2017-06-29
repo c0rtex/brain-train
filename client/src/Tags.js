@@ -9,34 +9,49 @@ import {
   ModalFooter
 } from 'react-modal-bootstrap';
 
-function TagRow(props) {
-  return (
-    <div className="list-group-item">
-      {props.tag.count.inChats > 0 ? (
-        <Link to={`/tags/${props.tag.name}`}><h4 className="list-group-item-heading">{props.tag.name}</h4></Link>
-      ) : (
-        <h4 className="list-group-item-heading">{props.tag.name}</h4>
-      )}
-      <p className="list-group-item-text">
-          <em><strong>{props.tag.count.inChats}</strong> chats using it.</em>
-      </p>
-    </div>
-  );
-}
+class TagRow extends Component {
 
-function TagsList(props) {
-  let rows = [];
-  for (let tag of props.tags) {
-    rows.push(
-      <TagRow key={tag.name} tag={tag} />
-    );
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  return (
-    <div className="list-group">
-      {rows}
-    </div>
-  );
+  handleDelete() {
+    this.props.onTagDeletion(this.props.tag.name);
+  }
+  
+  render() {
+    return (
+      <li className="list-group-item">
+        <button className="btn btn-default btn-sm btn-delete" onClick={this.handleDelete}>
+          <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+        <span className="badge">{this.props.tag.count.inChats}</span>
+        {this.props.tag.count.inChats > 0 ? (
+          <Link to={`/tags/${this.props.tag.name}`}>{this.props.tag.name}</Link>
+        ) : (
+          this.props.tag.name
+        )}
+      </li>
+    );
+  }
+}
+
+class TagsList extends Component {
+  render() {
+    let rows = [];
+    for (let tag of this.props.tags) {
+      rows.push(
+        <TagRow key={tag.name} tag={tag} onTagDeletion={this.props.onTagDeletion}/>
+      );
+    }
+
+    return (
+      <ul className="list-group tags-list">
+        {rows}
+      </ul>
+    );
+  }
 }
 
 class AddTagForm extends Component {
@@ -149,12 +164,19 @@ class Tags extends Component {
     };
 
     this.reloadTags = this.reloadTags.bind(this);
+    this.handleTagDeletion = this.handleTagDeletion.bind(this);
   }
 
   reloadTags() {
     fetch('/api/tags')
       .then((response) => response.json())
       .then((data) => this.setState({tags: data}));
+  }
+
+  handleTagDeletion(tagName) {
+    fetch(`/api/tags/${tagName}`, {
+      method: 'DELETE',
+    }).then(() => this.reloadTags());
   }
 
   componentDidMount() {
@@ -171,7 +193,7 @@ class Tags extends Component {
           ) : (
             <div>
               <AddTagForm reloadTagsHandler={this.reloadTags} />
-              <TagsList tags={this.state.tags} />
+              <TagsList tags={this.state.tags} onTagDeletion={this.handleTagDeletion} />
             </div>
           )
         }

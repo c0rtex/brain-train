@@ -89,8 +89,19 @@ body {
 }
 
 /*
- * Add tag form
+ * Tags page
  */
 .add-tag-form {
   margin: 15px 0;
+}
+.tags-list {
+  width: 350px;
+}
+.tags-list .list-group-item:hover {
+  background-color: #f7f7f9;
+  border-color:#e1e1e8;
+}
+.tags-list .list-group-item .btn-delete {
+  display: inline-block;
+  margin-right: 10px;
 }

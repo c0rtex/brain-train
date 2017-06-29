@@ -90,7 +90,7 @@ app.get('/api/tags/:tagName', function(req, res, next) {
   });
 });
 
-/* POST Create new tag */
+/* POST create new tag */
 app.post('/api/tags', function(req, res, next) {
   if (!req.body.tagName) {
     res.send({ error: 'No tag was provided.' })
@@ -108,6 +108,18 @@ app.post('/api/tags', function(req, res, next) {
     res.send(JSON.parse(body));
   });
 });
+
+/* DELETE tag */
+app.delete('/api/tags/:tagName', function(req, res, next) {
+  apiReqDefaults.url = liveChatEndpoint + '/tags/' + req.params.tagName;
+  apiReqDefaults.method = "DELETE";
+
+  request(apiReqDefaults, function(err, response, body) {
+    if (err) return next(err);
+    console.log(body);
+    res.end();
+  });
+})
 
 // Listen
 app.listen(app.get('port'), () => {
